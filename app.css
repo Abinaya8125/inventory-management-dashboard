@@ -1,0 +1,39 @@
+import React, { useState } from 'react';
+import './App.css';
+
+function App() {
+  const [activeTab, setActiveTab] = useState('Dashboard');
+
+  const menuItems = ['Dashboard', 'Products', 'Orders', 'Settings'];
+
+  return (
+    <div className="app-container">
+      <aside className="sidebar">
+        <h2>Inventory</h2>
+        <ul>
+          {menuItems.map(item => (
+            <li
+              key={item}
+              className={activeTab === item ? 'active' : ''}
+              onClick={() => setActiveTab(item)}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      <main className="content">
+        <h1>{activeTab}</h1>
+        {activeTab === 'Dashboard' && (
+          <div className="dashboard">
+            <div className="card">Total Products: 560</div>
+            <div className="card">Low Stock: 23</div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
+
+export default App;
