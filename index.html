@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inventory Management Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --green: #10b981;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+    /* Sidebar */
+    .sidebar {
+      background: #111827;
+      color: #e5e7eb;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .brand {
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #cbd5e1;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .nav-btn:hover { background: #1f2937; }
+    .nav-btn.active {
+      background: #1f2937;
+      border-color: #374151;
+      color: #fff;
+      font-weight: 600;
+    }
+    /* Main */
+    .main {
+      padding: 24px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .title { font-size: 22px; font-weight: 700; }
+    .content-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    /* Metrics */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .metric {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .metric .label { color: var(--muted); font-size: 13px; }
+    .metric .value { font-size: 28px; font-weight: 700; margin-top: 6px; }
+    /* Table */
+    .table-header, .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 12px;
+      padding: 12px;
+      align-items: center;
+    }
+    .table-header {
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .table-row { border-bottom: 1px solid var(--border); }
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .in { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .low { background: #fff7ed; color: #92400e; border: 1px solid #fed7aa; }
+    .out { background: #f9fafb; color: #374151; border: 1px solid #e5e7eb; }
+    /* Views toggle */
+    .view { display: none; }
+    .view.active { display: block; }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 200px 1fr; }
+      .metrics { grid-template-columns: 1fr; }
+      .table-header, .table-row { grid-template-columns: 1.5fr 1fr 0.8fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">Inventory App</div>
+      <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+      <button class="nav-btn" data-view="products">Products</button>
+      <button class="nav-btn" data-view="orders">Orders</button>
+      <button class="nav-btn" data-view="settings">Settings</button>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <div class="header">
+        <div class="title">Inventory Management Dashboard</div>
+      </div>
+
+      <!-- Dashboard view -->
+      <section id="dashboard" class="view active">
+        <div class="metrics">
+          <div class="metric">
+            <div class="label">Total products</div>
+            <div class="value" id="totalProducts">560</div>
+          </div>
+          <div class="metric">
+            <div class="label">Total products</div>
+            <div class="value">560</div>
+          </div>
+          <div class="metric">
+            <div class="label">Low stock</div>
+            <div class="value" id="lowStock">23</div>
+          </div>
+        </div>
+        <div class="content-card">
+          <div style="color: var(--muted); font-size: 14px;">
+            Welcome! Sidebar la buttons use panni different views open pannunga.
+          </div>
+        </div>
+      </section>
+
+      <!-- Products view -->
+      <section id="products" class="view">
+        <div class="content-card">
+          <div class="table-header">
+            <div>Product name</div>
+            <div>SKU</div>
+            <div>Stock</div>
+            <div>Status</div>
+          </div>
+
+          <div class="table-row">
+            <div>Product A</div>
+            <div>SKU001</div>
+            <div>150</div>
+            <div><span class="badge in">In Stock</span></div>
+          </div>
+          <div class="table-row">
+            <div>Product B</div>
+            <div>SKU002</div>
+            <div>20</div>
+            <div><span class="badge low">Low Stock</span></div>
+          </div>
+          <div class="table-row">
+            <div>Product C</div>
+            <div>SKU003</div>
+            <div>170</div>
+            <div><span class="badge in">In Stock</span></div>
+          </div>
+          <div class="table-row">
+            <div>Product D</div>
+            <div>SKU004</div>
+            <div>0</div>
+            <div><span class="badge out">Out of Stock</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Placeholder views -->
+      <section id="orders" class="view">
+        <div class="content-card">Orders view coming soon.</div>
+      </section>
+      <section id="settings" class="view">
+        <div class="content-card">Settings view coming soon.</div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Thanglish: Sidebar button click panna view maari display aagum
+    const buttons = document.querySelectorAll('.nav-btn');
+    const views = document.querySelectorAll('.view');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // active state
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // show selected view
+        const targetId = btn.dataset.view;
+        views.forEach(v => v.classList.remove('active'));
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
